@@ -20,6 +20,26 @@ return {
 	},
 
 	{
+		coords = vec3(452.02, -972.72, 29.68),
+		target = {
+			loc = vec3(452.02, -972.72, 29.68),
+			length = 0.40,
+			width = 1.34,
+			heading = 0,
+            minZ = 29.68,
+            maxZ = 31.74,
+			label = 'Coffre Patron',
+			debug = false
+		},
+		name = 'policepatronlocker',
+		label = 'Coffre Patron',
+		owner = false,
+		slots = 70,
+		weight = 70000,
+		groups = {['police'] = 4}
+	},
+
+	{
 		coords = vec3(301.3, -600.23, 43.28),
 		target = {
 			loc = vec3(301.82, -600.99, 43.29),
