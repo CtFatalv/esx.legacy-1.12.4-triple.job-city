@@ -1,5 +1,11 @@
 return {
     
+    ['w_etabli'] = {
+        label = 'Atelier D\'arme',
+        weight = 100,
+        stack = true,
+    },
+
     ['w_demicubeacier'] = {
         label = 'Demi-cube d\'acier',
         weight = 100,
