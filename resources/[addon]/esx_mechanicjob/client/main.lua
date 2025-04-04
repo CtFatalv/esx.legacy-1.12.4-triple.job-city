@@ -633,10 +633,8 @@ AddEventHandler('esx_mechanicjob:onFixkit', function()
 
 	local levelOfDamageToKillThisBitch = 1000.00
 	local damage = GetVehicleEngineHealth( vehicle )
-		print(damage)
 	if DoesEntityExist(vehicle) and damage < levelOfDamageToKillThisBitch then
 		fixkit = false
-		print(damage)
 		local levelOfDamageToKillThisBitch = 1000.00
 		local damage = GetVehicleEngineHealth( vehicle )
 		TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
@@ -674,10 +672,8 @@ AddEventHandler('esx_mechanicjob:onCarokit', function()local playerPed = PlayerP
 
     local levelOfDamageToKillThisBitch = 10.00
     local damage = GetVehicleEngineHealth( vehicle )
-        print(damage)
     if DoesEntityExist(vehicle) and damage < levelOfDamageToKillThisBitch then
         fixkit = false
-        print(damage)
         local levelOfDamageToKillThisBitch = 10.00
         local damage = GetVehicleEngineHealth( vehicle )
         TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
@@ -1125,15 +1121,14 @@ end)
 AddEventHandler('esx_mechanicjob:mettreplateau', function()
     local playerPed = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(playerPed, true)
-
     local towmodel = `flatbed`
     local isVehicleTow = IsVehicleModel(vehicle, towmodel)
 
     if isVehicleTow then
-        local targetVehicle = ESX.Game.GetVehicleInDirection()
-
+        local targetVehicle = GetClosestVehicle()
+        
         if CurrentlyTowedVehicle == nil then
-            if targetVehicle ~= 0 then
+            if targetVehicle ~= nil then
                 if not IsPedInAnyVehicle(playerPed, true) then
                     if vehicle ~= targetVehicle then
                         AttachEntityToEntity(targetVehicle, vehicle, 20, -0.5, -5.0, 1.0, 0.0, 0.0, 0.0, false, false, false, false, 20, true)
@@ -1167,7 +1162,6 @@ AddEventHandler('esx_mechanicjob:mettreplateau', function()
 
             if NPCOnJob then
                 if NPCTargetDeleterZone then
-
                     if CurrentlyTowedVehicle == NPCTargetTowable then
                         ESX.Game.DeleteVehicle(NPCTargetTowable)
                         TriggerServerEvent('esx_mechanicjob:onNPCJobMissionCompleted')
@@ -1176,7 +1170,6 @@ AddEventHandler('esx_mechanicjob:mettreplateau', function()
                     else
                         ESX.ShowNotification(TranslateCap('not_right_veh'))
                     end
-
                 else
                     ESX.ShowNotification(TranslateCap('not_right_place'))
                 end
@@ -1189,3 +1182,14 @@ AddEventHandler('esx_mechanicjob:mettreplateau', function()
         ESX.ShowNotification(TranslateCap('imp_flatbed'))
     end
 end)
+
+function GetClosestVehicle()
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    local vehicles = ESX.Game.GetVehiclesInArea(playerCoords, 5.0)
+    
+    if #vehicles > 0 then
+        return vehicles[1] -- Retourne le premier véhicule détecté
+    end
+    return nil
+end
